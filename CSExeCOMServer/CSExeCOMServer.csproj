@@ -89,7 +89,6 @@
     <Compile Include="IClassFactory.cs" />
     <Compile Include="ISimpleObject.cs" />
     <Compile Include="ISimpleObjectEvents.cs" />
-    <Compile Include="ReferenceCountedObject.cs" />
     <Compile Include="SimpleObject.cs" />
     <Compile Include="ExecutableComServer.cs" />
     <Compile Include="NativeMethods.cs" />

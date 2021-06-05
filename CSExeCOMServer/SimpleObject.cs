@@ -44,42 +44,21 @@ using System.Runtime.InteropServices;
 namespace CSExeCOMServer
 {
     [ComVisible(true)]
-    [Guid("DB9935C1-19C5-4ed2-ADD2-9A57E19F53A3")]
     [ClassInterface(ClassInterfaceType.None)] // No ClassInterface
+    [Guid("DB9935C1-19C5-4ed2-ADD2-9A57E19F53A3")]
     [ComSourceInterfaces(typeof(ISimpleObjectEvents))]
-    public class SimpleObject : ReferenceCountedObject, ISimpleObject
+    public class SimpleObject : ISimpleObject
     {
-        // These routines perform the additional COM registration needed by 
-        // the service.
-
-        [ComRegisterFunction]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public static void Register(Type t)
+        public SimpleObject()
         {
-            try
-            {
-                HelperMethods.RegasmRegisterLocalServer(t);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message); // Log the error
-                throw ex; // Re-throw the exception
-            }
+            // Increment the lock count of objects in the COM server.
+            ExecutableComServer.Instance.Lock();
         }
 
-        [ComUnregisterFunction]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public static void Unregister(Type t)
+        ~SimpleObject()
         {
-            try
-            {
-                HelperMethods.RegasmUnregisterLocalServer(t);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message); // Log the error
-                throw ex; // Re-throw the exception
-            }
+            // Decrement the lock count of objects in the COM server.
+            ExecutableComServer.Instance.Unlock();
         }
 
         private float fField = 0f;
@@ -113,5 +92,38 @@ namespace CSExeCOMServer
         public delegate void FloatPropertyChangingEventHandler(float NewValue, ref bool Cancel);
 
         public event FloatPropertyChangingEventHandler FloatPropertyChanging;
+
+        // These routines perform the additional COM registration needed by 
+        // the service.
+
+        [ComRegisterFunction]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static void Register(Type t)
+        {
+            try
+            {
+                HelperMethods.RegasmRegisterLocalServer(t);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message); // Log the error
+                throw ex; // Re-throw the exception
+            }
+        }
+
+        [ComUnregisterFunction]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static void Unregister(Type t)
+        {
+            try
+            {
+                HelperMethods.RegasmUnregisterLocalServer(t);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message); // Log the error
+                throw ex; // Re-throw the exception
+            }
+        }
     }
 }
