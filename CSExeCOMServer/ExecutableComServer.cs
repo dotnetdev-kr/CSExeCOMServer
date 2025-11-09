@@ -79,6 +79,19 @@ namespace CSExeCOMServer
         private void PreMessageLoop()
         {
             //
+            // Initialize COM for this thread as STA (Single-Threaded Apartment)
+            //
+            int hResult = NativeMethods.CoInitializeEx(
+                IntPtr.Zero, 
+                NativeMethods.COINIT_APARTMENTTHREADED);
+
+            if (hResult != NativeMethods.S_OK && hResult != NativeMethods.S_FALSE)
+            {
+                throw new ApplicationException(
+                    "CoInitializeEx failed w/err 0x" + hResult.ToString("X"));
+            }
+
+            //
             // Register the COM class factories.
             // 
             Guid clsidSimpleObj = HelperMethods.GetGuidFromType(typeof(SimpleObject));
@@ -178,6 +191,11 @@ namespace CSExeCOMServer
 
             // Wait for any threads to finish.
             Thread.Sleep(1000);
+
+            //
+            // Uninitialize COM for this thread
+            //
+            NativeMethods.CoUninitialize();
         }
 
         /// <summary>

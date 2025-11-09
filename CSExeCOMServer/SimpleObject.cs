@@ -47,7 +47,7 @@ namespace CSExeCOMServer
     [ClassInterface(ClassInterfaceType.None)] // No ClassInterface
     [Guid("DB9935C1-19C5-4ed2-ADD2-9A57E19F53A3")]
     [ComSourceInterfaces(typeof(ISimpleObjectEvents))]
-    public class SimpleObject : ISimpleObject
+    public class SimpleObject : StandardOleMarshalObject, ISimpleObject
     {
         public SimpleObject()
         {

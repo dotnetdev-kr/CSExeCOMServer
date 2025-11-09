@@ -237,6 +237,31 @@ namespace CSExeCOMServer
         /// </summary>
         public const int E_NOINTERFACE = unchecked((int)0x80004002);
 
+        /// <summary>
+        /// Initializes the thread for apartment-threaded object concurrency (STA)
+        /// </summary>
+        public const int COINIT_APARTMENTTHREADED = 0x2;
+
+        /// <summary>
+        /// Initializes the thread for multithreaded object concurrency (MTA)
+        /// </summary>
+        public const int COINIT_MULTITHREADED = 0x0;
+
+        /// <summary>
+        /// Success return value for COM operations
+        /// </summary>
+        public const int S_OK = 0;
+
+        /// <summary>
+        /// COM is already initialized on this thread
+        /// </summary>
+        public const int S_FALSE = 1;
+
+        /// <summary>
+        /// COM library has already been initialized on this thread with different concurrency model
+        /// </summary>
+        public const int RPC_E_CHANGED_MODE = unchecked((int)0x80010106);
+
         [StructLayout(LayoutKind.Sequential)]
         public struct NativeMessage
         {
