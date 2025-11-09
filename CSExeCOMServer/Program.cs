@@ -24,6 +24,7 @@ namespace CSExeCOMServer
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
+        [STAThread]
         private static void Main(string[] args)
         {
             Console.WriteLine(string.Join(", ", args));

@@ -46,6 +46,21 @@ Please generate new GUIDs when you are writing your own COM server
     void FloatPropertyChanging(float NewValue, ref bool Cancel);
 ```
 
+## Apartment Threading Model
+
+The COM server runs in **Single-Threaded Apartment (STA)** mode. This is configured through:
+
+1. The `[STAThread]` attribute on the `Main` method
+2. Explicit COM initialization with `CoInitializeEx(COINIT_APARTMENTTHREADED)` in the main thread
+3. `StandardOleMarshalObject` base class for proper cross-apartment marshaling
+
+This ensures that:
+- COM objects created by the server run in STA apartment state
+- Proper marshaling occurs when accessed from different apartment contexts
+- UI components and STA-aware resources can be safely used
+
+For more details on verifying the apartment state, see [STA_VERIFICATION.md](STA_VERIFICATION.md).
+
 NOTE: If you are going to deploy this out-of-process COM server to a x64 operating sytem, you must build the sample project with "Platform target" explicitly set to `x64` or `x86` in the project properties. If you use the default "`Any CPU`", you will see your client application hang while creating the COM object for about 2 mins, and give the error: 
 
 `"Retrieving the COM class factory for component with CLSID {<clsid>} failed due to the following error: 80080005."`
