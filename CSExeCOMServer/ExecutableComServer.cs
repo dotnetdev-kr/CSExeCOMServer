@@ -97,7 +97,7 @@ namespace CSExeCOMServer
             Guid clsidSimpleObj = HelperMethods.GetGuidFromType(typeof(SimpleObject));
 
             // Register the SimpleObject class object
-            int hResult = NativeMethods.CoRegisterClassObject(
+            hResult = NativeMethods.CoRegisterClassObject(
                 ref clsidSimpleObj,                 // CLSID to be registered
                 new SimpleObjectClassFactory(),     // Class factory
                 NativeMethods.CLSCTX.LOCAL_SERVER,  // Context to run
